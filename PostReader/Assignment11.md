@@ -57,6 +57,13 @@
 
 ## Этап 1 — модель без сети и интерфейса
 
+{
+  "userId": 1,
+  "id": 1,
+  "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+  "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+}
+
 1. Посмотри формат одного объекта API и создай собственную модель публикации.
 2. Подготовь небольшой локальный JSON-массив из двух своих публикаций: разные ID, заголовки и тексты. Не получай эталон кодированием той же модели, которую затем проверяешь: исходные данные задай независимо.
 3. Преобразуй JSON в модели без настоящего запроса и без View. Проверочный запуск может быть отдельным консольным экспериментом; он не должен сам выполняться при каждом запуске iOS-приложения.

@@ -20,7 +20,7 @@ enum GetJSONResult: Error {
 }
 
 struct ourModel: Identifiable, Codable {
-    let userID: Int
+    let userId: Int
     let id: Int
     var title: String
     var body: String
@@ -99,30 +99,22 @@ func start() {
     
     case .fileNotFound:
         print("we can't find file")
+    
     case .emptyInputForURL:
         print("input for URL is empty")
+    
     case .emptyDataForSave:
         print("emptyDataForSave")
+    
     case .loadError(let error):
         print("we have loadError - \(error)")
+    
     case .decodingError(let error):
         print("we have decodingError - \(error)")
+    
     case .good(let array):
-        var count = 0
-        for currentModel in array {
-            if currentModel.userID == 2 && currentModel.id == 101 && currentModel.title == "Second" && currentModel.body == "Doumbia" && count == 0 {
-                print("первая модель прошла проверку")
-                count += 1
-            }
-            if currentModel.userID == 1 && currentModel.id == 202 && currentModel.title == "First" && currentModel.body == "Mebappe" && count == 1 {
-                print("вторая модель прошла проверку")
-                count += 1
-            }
-            
-            if count == 2 {
-                print("скок надо")
-            }
-        }
+        print("окей")
+    
     case .anotherError:
         print("we don't know this type of error")
     }

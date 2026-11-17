@@ -1,4 +1,9 @@
 [
-    { "userID": 2, "id": 101, "title": "Second", "body": "Doumbia" },
-    { "userID": 1, "id": 202, "title": "First", "body": "Mebappe" }
+    { "userId": 2, "id": 101, "title": "Second", "body": "Doumbia" },
+    { "userId": 1, "id": 202, "title": "First", "body": "Mebappe" },
+    { "userId": неправильно, "id": 202, "title": "First", "body": "Mebappe" },
+    { "userId": "неправильно", "id": 202, "title": "First", "body": "Mebappe" },
+    { "userId": , "id": 202, "title": "First", "body": "Mebappe" },
+    { "id": 202, "title": "First", "body": "Mebappe" },
+    {}
 ]

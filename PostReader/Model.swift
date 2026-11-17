@@ -13,18 +13,11 @@ enum GetJSONResult: Error {
     case emptyInputForURL
     case emptyDataForSave
 
-//    case folderError(Error)             // хранит дополнительную информацию - исходную ошибку (значение Error будет тоже учит) - сможем потом разобрать эту доп инфу
-    // case encodingError(Error)
-    // case saveError(Error)
     case loadError(Error)
     case decodingError(Error)
+    case good([ourModel])
+    case anotherError
 }
-
-
-let url = Bundle.main.url(
-    forResource: "array",
-    withExtension: "json"
-)
 
 struct ourModel: Identifiable, Codable {
     let userID: Int
@@ -60,19 +53,25 @@ func loadJSON(whereWeGet: URL) throws -> [ourModel] {
 }
 
 
-func program() -> [ourModel] {
+let url = URL(
+    fileURLWithPath: "/Users/aroslav/Documents/projects_swift/PostReader/PostReader/array.json"
+)
+
+func program() -> GetJSONResult {
     do {
-        if let ourURL = url {
-            var array = try loadJSON(whereWeGet: ourURL)
-            return array
-        }
+        var array = try loadJSON(whereWeGet: url)
+        return GetJSONResult.good(array)
     } catch {
         switch error {
+        
         case GetJSONResult.fileNotFound:
-            print("we can't find file")
+            return GetJSONResult.fileNotFound
             
+        case GetJSONResult.emptyDataForSave:
+            return GetJSONResult.emptyDataForSave
+        
         case GetJSONResult.emptyInputForURL:
-            print("input for URL is empty")
+            return GetJSONResult.emptyInputForURL
         
         case GetJSONResult.decodingError(let cause):                           // есть ошибки декодирования - мы разбираем случ-какие они могут быть
             switch cause {
@@ -84,23 +83,48 @@ func program() -> [ourModel] {
 
                 default:
                 print("Другая причина: \(cause)")
-        }
+            }
+            return GetJSONResult.decodingError(cause)
         default:
-            print("we don't know this type of error")
+            return GetJSONResult.anotherError
         }
     }
-    return []
 }
 
 
 func start() {
-    var array = program()
-    var count = 1
-    for currentModel in array {
-        if currentModel.userID == 2 && currentModel.id == 101 && currentModel.title == "Second" && currentModel.body == "Doumbia" && count == 1 {
-            print("первая модель прошла проверку")
+    let returned = program()
+    
+    switch returned {
+    
+    case .fileNotFound:
+        print("we can't find file")
+    case .emptyInputForURL:
+        print("input for URL is empty")
+    case .emptyDataForSave:
+        print("emptyDataForSave")
+    case .loadError(let error):
+        print("we have loadError - \(error)")
+    case .decodingError(let error):
+        print("we have decodingError - \(error)")
+    case .good(let array):
+        var count = 0
+        for currentModel in array {
+            if currentModel.userID == 2 && currentModel.id == 101 && currentModel.title == "Second" && currentModel.body == "Doumbia" && count == 0 {
+                print("первая модель прошла проверку")
+                count += 1
+            }
+            if currentModel.userID == 1 && currentModel.id == 202 && currentModel.title == "First" && currentModel.body == "Mebappe" && count == 1 {
+                print("вторая модель прошла проверку")
+                count += 1
+            }
+            
+            if count == 2 {
+                print("скок надо")
+            }
         }
-        count += 1
+    case .anotherError:
+        print("we don't know this type of error")
     }
 }
 
